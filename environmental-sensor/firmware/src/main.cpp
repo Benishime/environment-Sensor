@@ -28,8 +28,9 @@ void loop() {
   if (startCalled && !stopCalled) {
     Sendcalled(SendByte);
     ReceivedByte();
-  } else if (startCalled && stopCalled) {
+  } else if ((startCalled==true) && (stopCalled==true)) {
     Serial.println("stop");
+    for(;;);
   }
 
   delay(1000);
@@ -74,8 +75,6 @@ bool StopCalled(String readData) {
 
 char Sendcalled(char sendByte[9]) {
   delay(1000);
-  char readByte;
-   bool read_start = false;
   char asd[9] = {0xFF,0x01,0x86,0x00,0x00,0x00,0x00,0x00,0x79};
   for(int i=0;i<9;i++){
     Serial2.write(asd[i]);
@@ -84,6 +83,12 @@ char Sendcalled(char sendByte[9]) {
 
   delay(1000);
 
+  
+}
+
+String ReceivedByte(){
+  char readByte;
+  bool read_start = false;
   while(Serial2.available()>0){
     readByte =Serial2.read();
     if(readByte == 0xFF){
@@ -97,7 +102,4 @@ char Sendcalled(char sendByte[9]) {
     Serial.println(readByte);
   }
   delay(1000);
-}
-
-String ReceivedByte(){
 }
